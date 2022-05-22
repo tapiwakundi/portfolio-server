@@ -7,7 +7,7 @@ export default withAuth(
   config({
     db: {
       provider: 'postgresql',
-      url: process.env.BD_URL!
+      url: process.env.DB_URL!
     },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,
