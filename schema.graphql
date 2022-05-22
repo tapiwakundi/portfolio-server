@@ -248,7 +248,13 @@ type Project {
   name: String
   organization: String
   shortDescription: String
-  challenges: ProjectChallenge
+  challenges(
+    where: ProjectChallengeWhereInput! = {}
+    orderBy: [ProjectChallengeOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [ProjectChallenge!]
+  challengesCount(where: ProjectChallengeWhereInput! = {}): Int
   technologies: String
   features: String
   sourceCodeUrl: String
@@ -280,7 +286,7 @@ input ProjectWhereInput {
   name: StringFilter
   organization: StringFilter
   shortDescription: StringFilter
-  challenges: ProjectChallengeWhereInput
+  challenges: ProjectChallengeManyRelationFilter
   technologies: StringFilter
   features: StringFilter
   sourceCodeUrl: StringFilter
@@ -292,6 +298,12 @@ input ProjectWhereInput {
   images: ImageManyRelationFilter
   thumbnail: ImageWhereInput
   banner: ImageWhereInput
+}
+
+input ProjectChallengeManyRelationFilter {
+  every: ProjectChallengeWhereInput
+  some: ProjectChallengeWhereInput
+  none: ProjectChallengeWhereInput
 }
 
 input IntNullableFilter {
@@ -329,7 +341,7 @@ input ProjectUpdateInput {
   name: String
   organization: String
   shortDescription: String
-  challenges: ProjectChallengeRelateToOneForUpdateInput
+  challenges: ProjectChallengeRelateToManyForUpdateInput
   technologies: String
   features: String
   sourceCodeUrl: String
@@ -343,10 +355,11 @@ input ProjectUpdateInput {
   banner: ImageRelateToOneForUpdateInput
 }
 
-input ProjectChallengeRelateToOneForUpdateInput {
-  create: ProjectChallengeCreateInput
-  connect: ProjectChallengeWhereUniqueInput
-  disconnect: Boolean
+input ProjectChallengeRelateToManyForUpdateInput {
+  disconnect: [ProjectChallengeWhereUniqueInput!]
+  set: [ProjectChallengeWhereUniqueInput!]
+  create: [ProjectChallengeCreateInput!]
+  connect: [ProjectChallengeWhereUniqueInput!]
 }
 
 input ImageRelateToManyForUpdateInput {
@@ -371,7 +384,7 @@ input ProjectCreateInput {
   name: String
   organization: String
   shortDescription: String
-  challenges: ProjectChallengeRelateToOneForCreateInput
+  challenges: ProjectChallengeRelateToManyForCreateInput
   technologies: String
   features: String
   sourceCodeUrl: String
@@ -385,9 +398,9 @@ input ProjectCreateInput {
   banner: ImageRelateToOneForCreateInput
 }
 
-input ProjectChallengeRelateToOneForCreateInput {
-  create: ProjectChallengeCreateInput
-  connect: ProjectChallengeWhereUniqueInput
+input ProjectChallengeRelateToManyForCreateInput {
+  create: [ProjectChallengeCreateInput!]
+  connect: [ProjectChallengeWhereUniqueInput!]
 }
 
 input ImageRelateToManyForCreateInput {

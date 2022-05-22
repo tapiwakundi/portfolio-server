@@ -54,7 +54,7 @@ export const lists: Lists = {
           displayMode: 'textarea'
         }
       }),
-      challenges: relationship({ ref: 'ProjectChallenge.project' }),
+      challenges: relationship({ ref: 'ProjectChallenge.project', many: true }),
       technologies: text(),
       features: text({
         ui: {
