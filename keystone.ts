@@ -16,7 +16,7 @@ export default withAuth(
     session,
     server: {
       cors: {
-        origin: ['http://localhost:3000']
+        origin: ['http://localhost:3000', 'https://tapiwakundi.com']
       }
     }
   })
